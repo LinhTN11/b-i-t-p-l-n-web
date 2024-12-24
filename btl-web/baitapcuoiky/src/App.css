@@ -1,0 +1,265 @@
+/* Reset mặc định */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Tổng quan */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main-content {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  margin: 0 auto; /* Căn giữa theo chiều ngang */
+  justify-content: center; /* Căn giữa các item bên trong theo chiều ngang */
+  max-width: 2000px; /* Đặt chiều rộng tối đa (tùy theo thiết kế) */
+}
+
+
+.left-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 1000px;
+}
+
+.right-content {
+  flex: 1;
+  min-width: 400px;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: calc(100vh - 100px);
+}
+
+/* Dashboard */
+.dashboard {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  text-align: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: #d5eee8;
+  border-radius: 8px;
+}
+
+/* Header styles */
+.header {
+  background-color: #fff;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.header nav {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header nav ul {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.header nav li {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  flex: 1;
+}
+
+.header nav li:hover {
+  background-color: #f0f0f0;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.nav-menu button {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: none;
+    color: #333;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-menu button:hover {
+    color: #4a90e2;
+}
+
+.auth-section {
+    position: relative;
+    margin-left: 1rem;
+}
+
+.login-button {
+    width: 100px !important;
+    height: 35px !important;
+    border-radius: 5px !important;
+    padding: 0 !important;
+    background-color: #4a90e2 !important;
+    color: white !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease !important;
+    border: none !important;
+    font-size: 10px !important;
+    min-width: unset !important;
+}
+
+.login-button:hover {
+    background-color: #357abd !important;
+    transform: scale(1.05) !important;
+}
+
+.login-button svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Calendar */
+.calendar {
+  width: 100%;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  max-width: 1000px;
+}
+
+.calendar table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.calendar th, .calendar td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.calendar th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
+
+.calendar td {
+  height: 60px;
+}
+
+.calendar td p:first-child {
+  font-size: 12px;
+  color: #666;
+}
+
+.calendar td p:last-child {
+  font-size: 16px;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.calendar td:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+/* Transaction List */
+.transaction-list {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  height: calc(100vh - 140px);
+  overflow-y: auto;
+}
+
+.transaction-list h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.transaction-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  transition: background-color 0.2s ease;
+}
+
+.transaction-item:hover {
+  background-color: #f0f0f0;
+}
+
+.transaction-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.transaction-date {
+  font-size: 14px;
+  color: #666;
+}
+
+.transaction-description {
+  font-size: 16px;
+  color: #333;
+}
+
+.transaction-amount {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.transaction-amount.income {
+  color: #28a745;
+}
+
+.transaction-amount.expense {
+  color: #dc3545;
+}

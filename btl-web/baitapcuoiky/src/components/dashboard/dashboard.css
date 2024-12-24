@@ -1,0 +1,48 @@
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  max-width: 1000px;
+}
+
+.dashboard-item {
+  text-align: center;
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  transition: transform 0.2s;
+}
+
+.dashboard-item:hover {
+  transform: translateY(-2px);
+}
+
+.dashboard-item h3 {
+  margin: 0 0 8px 0;
+  color: #495057;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.dashboard-item p {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.income {
+  color: #71a2f2;
+}
+
+.expense {
+  color: #000000;
+}
+
+.balance {
+  color: rgb(255, 165, 127);
+}
