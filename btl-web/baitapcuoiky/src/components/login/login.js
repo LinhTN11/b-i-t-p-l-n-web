@@ -6,11 +6,9 @@ import { authService } from '../../services/authService';
 const Login = ({ isOpen, onClose }) => {
     const [activeTab, setActiveTab] = useState('login');
     const [formData, setFormData] = useState({
-        name: '',
         email: '',
         password: '',
-        confirmPassword: '',
-        phone: ''
+        confirmPassword: ''
     });
     const [error, setError] = useState('');
     const [userEmail, setUserEmail] = useState(null);
@@ -55,15 +53,9 @@ const Login = ({ isOpen, onClose }) => {
                     setError('Mật khẩu không khớp!');
                     return;
                 }
-                if (!formData.name || !formData.phone) {
-                    setError('Vui lòng điền đầy đủ thông tin!');
-                    return;
-                }
                 const response = await authService.register(
-                    formData.name,
                     formData.email,
-                    formData.password,
-                    formData.phone
+                    formData.password
                 );
                 if (response.status === 'ERR') {
                     setError(response.message);
@@ -151,19 +143,6 @@ const Login = ({ isOpen, onClose }) => {
                         {error && <div className="error-message">{error}</div>}
 
                         <form onSubmit={handleSubmit}>
-                            {activeTab === 'register' && (
-                                <div className="form-group">
-                                    <label>Họ và tên</label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        value={formData.name}
-                                        onChange={handleInputChange}
-                                        placeholder="Nhập họ và tên"
-                                    />
-                                </div>
-                            )}
-                            
                             <div className="form-group">
                                 <label>Email</label>
                                 <input
@@ -196,16 +175,6 @@ const Login = ({ isOpen, onClose }) => {
                                             value={formData.confirmPassword}
                                             onChange={handleInputChange}
                                             placeholder="Nhập lại mật khẩu"
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Số điện thoại</label>
-                                        <input
-                                            type="tel"
-                                            name="phone"
-                                            value={formData.phone}
-                                            onChange={handleInputChange}
-                                            placeholder="Nhập số điện thoại"
                                         />
                                     </div>
                                 </>

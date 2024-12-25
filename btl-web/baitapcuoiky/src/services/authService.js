@@ -31,14 +31,14 @@ export const authService = {
         }
     },
 
-    register: async (name, email, password, phone) => {
+    register: async (email, password) => {
         try {
             const response = await api.post('/user/register', { 
-                name,
+                name: email.split('@')[0], // Lấy phần username từ email
                 email,
                 password,
                 confirmPassword: password,
-                phone
+                phone: '0000000000' // Số điện thoại mặc định
             });
             return response.data;
         } catch (error) {
