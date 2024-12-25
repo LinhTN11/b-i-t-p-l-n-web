@@ -1,3 +1,4 @@
+// Import các thư viện và module cần thiết
 import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setAvatar, setUserData } from '../../features/userSlice';
@@ -8,30 +9,45 @@ import './OverAll.css';
 import { PieChart } from 'react-minimal-pie-chart';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
+// Thiết lập URL cơ sở cho các yêu cầu API
 axios.defaults.baseURL = 'http://localhost:3001';
 
 const OverAll = () => {
+  // Khởi tạo các hook và trình quản lý trạng thái
   const dispatch = useDispatch();
+  
+  // Lấy thông tin người dùng từ Redux store
   const avatar = useSelector((state) => state.user.avatar);
   const userDataFromStore = useSelector((state) => state.user.userData);
+  
+  // Tạo bản sao của dữ liệu người dùng để tránh thay đổi trực tiếp
   const userData = useMemo(() => userDataFromStore || {}, [userDataFromStore]);
+  
+  // Lấy token xác thực
   const token = useSelector((state) => state.user.token);
+  
+  // Tham chiếu đến input file để tải avatar
   const fileInputRef = useRef(null);
+  
+  // Trạng thái đang lưu thông tin
   const [isSaving, setSaving] = useState(false);
   
+  // Lấy khoảng ngày từ store
   const dateRange = useSelector((state) => state.transactions.dateRange);
   
-  // Load user details when component mounts
+  // Load thông tin người dùng khi component được mount
   useEffect(() => {
     const loadUserDetails = async () => {
       try {
         if (!token) return;
         
+        // Giải mã token để lấy ID người dùng
         const decodedToken = jwtDecode(token);
         const userId = decodedToken.id;
         
         console.log('Loading user details for userId:', userId);
         
+        // Gửi yêu cầu lấy thông tin người dùng
         const response = await axios.get(`/api/user-details/get/${userId}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -47,7 +63,7 @@ const OverAll = () => {
           const userDetails = response.data.data;
           console.log('Processing user details:', userDetails);
           
-          // Format birthdate to YYYY-MM-DD for input type="date"
+          // Định dạng ngày sinh thành YYYY-MM-DD cho input type="date"
           if (userDetails.birthdate) {
             const date = new Date(userDetails.birthdate);
             if (!isNaN(date.getTime())) {
@@ -55,7 +71,7 @@ const OverAll = () => {
             }
           }
 
-          // Ensure hometown is included
+          // Đảm bảo có thông tin quê quán
           const formattedUserDetails = {
             ...userDetails,
             hometown: userDetails.hometown || ''
@@ -81,14 +97,15 @@ const OverAll = () => {
     loadUserDetails();
   }, [dispatch, token]);
 
-  // Fetch transactions when component mounts
+  // Lấy giao dịch khi component được mount
   useEffect(() => {
     dispatch(fetchTransactions());
   }, [dispatch]);
 
+  // Lấy giao dịch từ store
   const transactions = useSelector((state) => state.transactions.transactions);
 
-  // Handle date range changes
+  // Xử lý thay đổi khoảng ngày
   const handleDateRangeChange = (type, value) => {
     dispatch(setDateRange({
       ...dateRange,
@@ -96,6 +113,7 @@ const OverAll = () => {
     }));
   };
 
+  // Lọc giao dịch theo khoảng ngày
   const filteredTransactions = transactions.filter(transaction => {
     if (!dateRange.startDate || !dateRange.endDate) return true;
     const transactionDate = new Date(transaction.date);
@@ -106,7 +124,7 @@ const OverAll = () => {
     return transactionDate >= startDate && transactionDate <= endDate;
   });
 
-  // Calculate total income and expenses
+  // Tính tổng thu và tổng chi
   const { totalIncome, totalExpense } = filteredTransactions.reduce((acc, transaction) => {
     const amount = parseFloat(transaction.amount);
     if (amount > 0) {
@@ -117,9 +135,9 @@ const OverAll = () => {
     return acc;
   }, { totalIncome: 0, totalExpense: 0 });
 
-  // Calculate spending by category
+  // Tính chi tiêu theo danh mục
   const spendingByCategory = filteredTransactions
-    .filter(t => parseFloat(t.amount) < 0)  // Filter expenses based on negative amounts
+    .filter(t => parseFloat(t.amount) < 0)  // Lọc giao dịch chi tiêu
     .reduce((acc, transaction) => {
       const category = transaction.category;
       if (!acc[category]) {
@@ -129,7 +147,7 @@ const OverAll = () => {
       return acc;
     }, {});
 
-  // Convert spending data for pie chart
+  // Chuyển đổi dữ liệu chi tiêu cho biểu đồ
   const colors = ['#E38627', '#C13C37', '#6A2135', '#47B39C', '#6A4C93'];
   const defaultSpendingData = [
     { title: 'Ăn uống', value: 0, color: '#E38627' },
@@ -144,7 +162,7 @@ const OverAll = () => {
     color: colors[index % colors.length]
   }));
 
-  // If no spending data, use default data
+  // Nếu không có dữ liệu chi tiêu, sử dụng dữ liệu mặc định
   if (spendingData.length === 0) {
     spendingData = defaultSpendingData;
   }
@@ -158,10 +176,12 @@ const OverAll = () => {
     console.log('Current userData:', userData);
   }, [token, userData]);
 
+  // Xử lý click vào avatar
   const handleAvatarClick = () => {
     fileInputRef.current.click();
   };
 
+  // Xử lý thay đổi file
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file && file.type.startsWith('image/')) {
@@ -173,6 +193,7 @@ const OverAll = () => {
     }
   };
 
+  // Xử lý thay đổi thông tin người dùng
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     console.log(`Updating ${name} with value:`, value);
@@ -182,6 +203,7 @@ const OverAll = () => {
     }));
   };
 
+  // Xử lý lưu thông tin người dùng
   const handleSaveUserDetails = async () => {
     try {
       setSaving(true);
@@ -191,6 +213,7 @@ const OverAll = () => {
         return;
       }
 
+      // Giải mã token để lấy ID người dùng
       const decodedToken = jwtDecode(token);
       const userId = decodedToken.id;
       
@@ -202,6 +225,7 @@ const OverAll = () => {
       // Tính tuổi từ ngày sinh
       const age = calculateAge(userData.birthdate);
 
+      // Dữ liệu người dùng để gửi đến server
       const userDataToSend = {
         userId: userId,
         name: userData.name || '',
@@ -216,6 +240,7 @@ const OverAll = () => {
       console.log('Current userData state:', userData);
       console.log('Sending user data to server:', userDataToSend);
       
+      // Gửi yêu cầu cập nhật thông tin người dùng
       const response = await axios.put(
         `/api/user-details/update/${userId}`,
         userDataToSend,
@@ -245,7 +270,7 @@ const OverAll = () => {
         dispatch(setUserData(updatedData));
         alert('Cập nhật thông tin thành công!');
 
-        // Tải lại thông tin user để đảm bảo dữ liệu đồng bộ
+        // Tải lại thông tin người dùng để đảm bảo dữ liệu đồng bộ
         console.log('Refreshing user data...');
         const refreshResponse = await axios.get(`/api/user-details/get/${userId}`, {
           headers: {
@@ -291,6 +316,7 @@ const OverAll = () => {
     }
   };
 
+  // Tính tuổi từ ngày sinh
   const calculateAge = (birthdate) => {
     if (!birthdate) return null;
     const today = new Date();
@@ -307,7 +333,7 @@ const OverAll = () => {
 
   return (
     <div className="overall-container">
-      {/* User Information Card */}
+      {/* Thẻ thông tin người dùng */}
       <div className="user-info-card">
         <div className="avatar-container" onClick={handleAvatarClick}>
           {avatar ? (
@@ -367,7 +393,7 @@ const OverAll = () => {
         </div>
       </div>
 
-      {/* Transaction Summary Card */}
+      {/* Thẻ tóm tắt giao dịch */}
       <div className="transaction-summary-card">
         <div className="summary-box">
           <h3>Tổng thu</h3>
@@ -379,7 +405,7 @@ const OverAll = () => {
         </div>
       </div>
 
-      {/* Spending Chart Card */}
+      {/* Thẻ biểu đồ chi tiêu */}
       <div className="spending-chart-card">
         <div className="date-range-selector">
           <div className="date-input">
