@@ -38,6 +38,7 @@ export const authService = {
                 name,
                 email,
                 password,
+                confirmPassword: password,
                 phone
             });
             return response.data;
