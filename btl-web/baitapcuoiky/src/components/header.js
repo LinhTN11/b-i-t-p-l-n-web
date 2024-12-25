@@ -6,7 +6,7 @@ import './header.css';
 const Header = ({ onNavClick, onLoginClick, currentView }) => {
   const [avatar, setAvatar] = useState(userIcon);
   const [selectedItem, setSelectedItem] = useState('Tổng quan');
-  const navItems = ['Tổng quan', 'Số giao dịch', 'Ghi chép giao dịch', 'Ngân sách'];
+  const navItems = ['Tổng quan', 'Số giao dịch', 'Thêm giao dịch', 'Ngân sách'];
   const userData = useSelector((state) => state.user.userData);
   const isLoggedIn = !!userData;
 
@@ -37,7 +37,7 @@ const Header = ({ onNavClick, onLoginClick, currentView }) => {
             <li 
               key={index} 
               onClick={() => handleNavClick(item)}
-              className={`nav-item ${selectedItem === item ? 'selected' : ''} ${item === 'Ghi chép giao dịch' ? 'record-transaction' : ''}`}
+              className={`nav-item ${selectedItem === item ? 'selected' : ''} ${item === 'Thêm giao dịch' ? 'record-transaction' : ''}`}
             >
               {item}
             </li>

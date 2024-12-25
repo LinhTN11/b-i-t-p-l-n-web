@@ -109,7 +109,7 @@ const TransactionNote = ({ onClose, editingTransaction }) => {
     <div className="transaction-note-overlay">
       <div className="transaction-note">
         <div className="note-header">
-          <h2>{editingTransaction ? 'Sửa giao dịch' : 'Ghi chép giao dịch'}</h2>
+          <h2>{editingTransaction ? 'Sửa giao dịch' : 'Thêm giao dịch'}</h2>
           <button className="close-button" onClick={onClose}>&times;</button>
         </div>
         <form onSubmit={handleSubmit}>

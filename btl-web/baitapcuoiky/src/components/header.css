@@ -29,7 +29,7 @@
   color: #000;
 }
 
-/* Style đặc biệt cho Ghi chép giao dịch */
+/* Style đặc biệt cho Thêm giao dịch */
 .record-transaction.selected {
   color: #FFB6C1 !important; /* Màu hồng pastel */
 }

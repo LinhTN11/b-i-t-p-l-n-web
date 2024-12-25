@@ -98,7 +98,7 @@ const App = () => {
 
   const handleNavClick = (item) => {
     setCurrentView(item);
-    if (item === 'Ghi chép giao dịch') {
+    if (item === 'Thêm giao dịch') {
       setShowTransactionNote(true);
       setEditingTransaction(null);
     } else if (item === 'Ngân sách') {
