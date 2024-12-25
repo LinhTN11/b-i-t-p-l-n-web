@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { 
   faUtensils,
@@ -74,7 +74,22 @@ const App = () => {
   const [editingTransaction, setEditingTransaction] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
   const [userEmail, setUserEmail] = useState(null);
+  const [currentView, setCurrentView] = useState('Tổng quan');
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!showTransactionNote) { 
+      const path = location.pathname;
+      if (path === '/' || path === '/overall') {
+        setCurrentView('Tổng quan');
+      } else if (path === '/transactions') {
+        setCurrentView('Số giao dịch');
+      } else if (path === '/budgets' || path === '/create-budget' || path === '/edit-budget') {
+        setCurrentView('Ngân sách');
+      }
+    }
+  }, [location, showTransactionNote]);
 
   const handleEdit = (transaction) => {
     setEditingTransaction(transaction);
@@ -82,6 +97,7 @@ const App = () => {
   };
 
   const handleNavClick = (item) => {
+    setCurrentView(item);
     if (item === 'Ghi chép giao dịch') {
       setShowTransactionNote(true);
       setEditingTransaction(null);
@@ -96,7 +112,14 @@ const App = () => {
 
   const handleCloseTransactionNote = () => {
     setShowTransactionNote(false);
-    setEditingTransaction(null);
+    const path = location.pathname;
+    if (path === '/' || path === '/overall') {
+      setCurrentView('Tổng quan');
+    } else if (path === '/transactions') {
+      setCurrentView('Số giao dịch');
+    } else if (path === '/budgets' || path === '/create-budget' || path === '/edit-budget') {
+      setCurrentView('Ngân sách');
+    }
   };
 
   const handleLoginSuccess = (email) => {
@@ -117,6 +140,7 @@ const App = () => {
         editingTransaction={editingTransaction}
         showTransactionNote={showTransactionNote}
         onCloseTransactionNote={handleCloseTransactionNote}
+        currentView={currentView}
       />
       {userEmail && (
         <User email={userEmail} onLogout={handleLogout} />

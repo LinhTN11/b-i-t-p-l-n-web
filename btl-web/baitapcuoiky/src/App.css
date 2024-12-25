@@ -17,7 +17,6 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100vh;
-  overflow: hidden;
 }
 
 .app {
@@ -30,11 +29,18 @@ html, body {
   display: flex;
   gap: 20px;
   padding: 20px;
-  margin: 0 auto; /* Căn giữa theo chiều ngang */
-  justify-content: center; /* Căn giữa các item bên trong theo chiều ngang */
-  max-width: 2000px; /* Đặt chiều rộng tối đa (tùy theo thiết kế) */
+  margin: 0 auto;
+  justify-content: center;
+  max-width: 2000px;
+  overflow-y: auto;
+  height: calc(100vh - 60px);
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
 }
 
+.main-content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
 
 .left-content {
   display: flex;

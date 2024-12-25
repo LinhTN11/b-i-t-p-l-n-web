@@ -1,0 +1,59 @@
+.avatar-button {
+  position: relative;
+  z-index: 1;
+}
+
+.avatar-button:hover .avatar-image {
+  transform: scale(2);
+  z-index: 2;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.avatar-image {
+  transform-origin: center;
+  will-change: transform;
+}
+
+.nav-item {
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+  color: #000;
+}
+
+.nav-item.selected {
+  font-weight: bold;
+  color: #000;
+}
+
+/* Style đặc biệt cho Ghi chép giao dịch */
+.record-transaction.selected {
+  color: #FFB6C1 !important; /* Màu hồng pastel */
+}
+
+.record-transaction.selected::after {
+  background-color: #FFB6C1 !important;
+}
+
+.nav-item.selected::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #000;
+  animation: underline 0.3s ease-in-out forwards;
+}
+
+@keyframes underline {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
